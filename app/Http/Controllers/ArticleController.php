@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-
 use App\Article;
-
+use App\Http\Requests;
 use DB;
+use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
     /**
-     * Verify Auth
+     * ArticleController constructor.
+     *
+     * Allow Auth verify just login in.
      */
     public function __construct ()
     {
@@ -67,7 +66,10 @@ class ArticleController extends Controller
             'content' => 'required'
         ]);
 
-        $result = Article::create($request->all());
+        $articleObj          = new Article();
+        $articleObj->title   = $request->input('title');
+        $articleObj->content = $request->input('content');
+        $result              = \Auth::user()->articles()->save($articleObj);
         return redirect('/article')->with('create_result', $result ? 'success' : 'failed');
     }
 

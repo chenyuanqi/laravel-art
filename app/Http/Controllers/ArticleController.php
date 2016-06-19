@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
-use App\Http\Requests;
-use DB;
 use Illuminate\Http\Request;
+
+use App\Http\Requests;
+
+use App\Article;
+
+use DB;
 
 class ArticleController extends Controller
 {
@@ -70,6 +73,7 @@ class ArticleController extends Controller
         $articleObj->title   = $request->input('title');
         $articleObj->content = $request->input('content');
         $result              = \Auth::user()->articles()->save($articleObj);
+
         return redirect('/article')->with('create_result', $result ? 'success' : 'failed');
     }
 
